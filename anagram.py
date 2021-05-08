@@ -44,7 +44,6 @@ for i in range (len(sorted_dict)) :
     tmp_index += 1
 
 word = input()
-# print(word)
 
 print(find_anagram(word, new_sorted_dict))
 

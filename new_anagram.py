@@ -1,50 +1,39 @@
-def find_anagram(word, dict) :
-  sorted_word = "".join(sorted(word))
+def new_find_anagram(word, counted_dict, datalist) :
+  word = word.rstrip()
+  counted_word = [0] * 26
+  ans = []
 
-  left = 0
-  right = len(dict)
+  for i in range (len(word)) :
+    counted_word[ord(word[i]) - ord("a")] += 1
 
-  while right >= left :
-    mid = (left + right) // 2
-    
-    if dict[mid][0] < sorted_word :
-      left = mid + 1
-      continue
-    elif dict[mid][0] > sorted_word :
-      right = mid - 1
-      continue
-    
-    return dict[mid][1:]
+  for i in range (len(counted_dict)) :
+    is_anagram = True
+    for j in range (26) :
+      if counted_word[j] < counted_dict[i][j] :
+        is_anagram = False
+    if is_anagram :
+      ans.append(datalist[i].rstrip())
   
-  return "This word doesn't have anagram"
-  
+  return ans
+
 
 f = open("words.txt", "r")
 datalist = f.readlines()
 
-sorted_dict = []
+counted_dict = [[0] * 26 for i in range(len(datalist))]
 
-for data in datalist :
-  data = data.rstrip()
-  sorted_dict.append(["".join(sorted(data)), data])
+for i in range (len(datalist)) :
+  data = datalist[i].rstrip()
+  for j in range (len(data)) :
+    counted_dict[i][ord(data[j]) - ord("a")] += 1
 
-sorted_dict = sorted(sorted_dict, key=lambda sorted_data: sorted_data[0])
+words_f = open("small.txt", "r")
+words = words_f.readlines()
 
-tmp_sorted_word = ""
-tmp_index = -1
+for word in words :
+  print(new_find_anagram(word.rstrip(), counted_dict, datalist))
 
-new_sorted_dict = []
+# word = input()
 
-for i in range (len(sorted_dict)) :
-  if tmp_sorted_word == sorted_dict[i][0] :
-    new_sorted_dict[tmp_index].append(sorted_dict[i][1])
-  else :
-    tmp_sorted_word = sorted_dict[i][0]
-    new_sorted_dict.append([tmp_sorted_word, sorted_dict[i][1]])
-    tmp_index += 1
-
-word = input()
-# print(word)
-
-print(find_anagram(word, new_sorted_dict))
+# print(new_find_anagram(word, counted_dict, datalist))
 
