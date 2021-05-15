@@ -9,12 +9,13 @@ def find_anagram(word, dict) :
     
     if dict[mid][0] < sorted_word :
       left = mid + 1
-      continue
+      
     elif dict[mid][0] > sorted_word :
       right = mid - 1
-      continue
+      
+    else :
+      return dict[mid][1:]
     
-    return dict[mid][1:]
   
   return "This word doesn't have anagram"
   
