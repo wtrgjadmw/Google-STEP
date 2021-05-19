@@ -5,19 +5,19 @@ if (len(sys.argv) != 2):
     print("usage: python %s N" % sys.argv[0])
     quit()
 
-# upper limit on the horizontal axis
+# 横軸の上限
 N = int(sys.argv[1])
 
-# list of execution time / vertical axis of the graph
+# 実行時間のリスト / 縦軸
 times = []
 
-# n: size of matrix
+# n×nの行列積の計算
 for n in range(N) :
     a = numpy.zeros((n, n)) # Matrix A
     b = numpy.zeros((n, n)) # Matrix B
     c = numpy.zeros((n, n)) # Matrix C
 
-    # Initialize the matrices to some values.
+    # 行列の初期化
     for i in range(n):
         for j in range(n):
             a[i, j] = i * n + j
@@ -26,7 +26,7 @@ for n in range(N) :
 
     begin = time.time()
 
-    # matrix calculation
+    # 行列の計算
     for i in range(n) :
       for j in range(n) :
         for k in range(n):
@@ -34,13 +34,13 @@ for n in range(N) :
 
     end = time.time()
     times.append(end - begin)
-    
-    print("time: %.6f sec" % (end - begin))
+
 
 # horizontal axis of the graph
 n_list = list(range(N))
 
-plt.plot(n_list, times)
+plt.scatter(n_list, times)
+
 plt.xlabel("size of square matrix")
 plt.ylabel("time(s)")
-plt.show()
+plt.savefig("HW1.png")
