@@ -94,6 +94,36 @@ def evaluate(tokens):
     index += 1
   return answer
 
+  
+def test(line):
+  tokens = tokenize(line)
+  new_tokens = eval_part(tokens)
+  actual_answer = evaluate(new_tokens)
+  expected_answer = eval(line)
+  if abs(actual_answer - expected_answer) < 1e-8:
+    print("PASS! (%s = %f)" % (line, expected_answer))
+  else:
+    print("FAIL! (%s should be %f but was %f)" % (line, expected_answer, actual_answer))
+
+
+# Add more tests to this function :)
+def run_test():
+  print("==== Test started! ====")
+  test("1")
+  test("1+2")
+  test("1.0+2")
+  test("1.0+2.1")
+  test("1.0+2.1-3")
+  test("1.0+2.1-3.6")
+  test("1.0+2.1-3.6*2.4")
+  test("1.0+2.1/0.7-3.6*2.4/1.2")
+  test("1.0+2.1/0.7-3.6*2.4/1.2/0.6")
+  test("1.0*2.5+2.1/0.7-3.6*2.4/1.2/0.6")
+  test("1.0*2.5+2.1/0.7-3.6*2.4/1.2/0.6-2.4")
+  print("==== Test finished! ====\n")
+
+run_test()
+
 while True:
   line = input()
   tokens = tokenize(line)
