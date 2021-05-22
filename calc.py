@@ -1,3 +1,5 @@
+import sys
+
 def readNumber(line, index):
   number = 0
   while index < len(line) and line[index].isdigit():
@@ -51,24 +53,29 @@ def tokenize(line):
     tokens.append(token)
   return tokens
 
-
-def eval_part(tokens, index):
-  answer = 0.0
-  tokens.insert(index, {'type': 'PLUS'})
-  index += 1
-  while index < len(tokens) and (tokens[index]['type'] == 'PLUS' or tokens[index]['type'] == 'MINUS'):
-    if tokens[index]['type'] == 'NUMBER':
-      if tokens[index - 1]['type'] == 'PLUS':
-        answer += tokens[index]['number']
-      elif tokens[index - 1]['type'] == 'MULTI':
-        answer *= tokens[index]['number']
-      elif tokens[index - 1]['type'] == 'DIVIDE':
-        try:
-          answer /= tokens[index]['number']
-        except ZeroDivisionError:
-          print("ZeroDivisionError!!")
-    index += 1
-  return answer, index
+# 3 + 4 * 2 - 1 / 5 -> 3 + 8 - 0.2にする
+def eval_part(tokens):
+  new_tokens = []
+  tmp = tokens[0]['number']
+  index = 1
+  while index < len(tokens):
+    if tokens[index]['type'] == 'PLUS' or tokens[index]['type'] == 'MINUS':
+      new_tokens.append({'type': 'NUMBER', 'number': tmp})
+      new_tokens.append({'type': tokens[index]['type']})
+      if index + 1 < len(tokens):
+        tmp = tokens[index + 1]['number']
+    elif tokens[index]['type'] == 'MULTI':
+      tmp *= tokens[index + 1]['number']
+    elif tokens[index]['type'] == 'DIVIDE':
+      # tmp /= tokens[index + 1]['number']
+      try:
+        tmp /= tokens[index + 1]['number']
+      except ZeroDivisionError:
+        print("ZeroDivisionError!!")
+        sys.exit()
+    index += 2
+  new_tokens.append({'type': 'NUMBER', 'number': tmp})
+  return new_tokens
   
 
 
@@ -79,7 +86,6 @@ def evaluate(tokens):
   while index < len(tokens):
     if tokens[index]['type'] == 'NUMBER':
       if tokens[index - 1]['type'] == 'PLUS':
-        tmp, index = eval_part(tokens, index)
         answer += tokens[index]['number']
       elif tokens[index - 1]['type'] == 'MINUS':
         answer -= tokens[index]['number']
@@ -91,5 +97,6 @@ def evaluate(tokens):
 while True:
   line = input()
   tokens = tokenize(line)
-  answer = evaluate(tokens)
+  new_tokens = eval_part(tokens)
+  answer = evaluate(new_tokens)
   print("answer = %f\n" % answer)
