@@ -23,6 +23,14 @@ def readMinus(line, index):
   token = {'type': 'MINUS'}
   return token, index + 1
 
+def readMulti(line, index):
+  token = {'type': 'MULTI'}
+  return token, index + 1
+
+def readDivide(line, index):
+  token = {'type': 'DIVIDE'}
+  return token, index + 1
+
 def tokenize(line):
   tokens = []
   index = 0
@@ -33,11 +41,36 @@ def tokenize(line):
       (token, index) = readPlus(line, index)
     elif line[index] == '-':
       (token, index) = readMinus(line, index)
+    elif line[index] == '*':
+      (token, index) = readMulti(line, index)
+    elif line[index] == '/':
+      (token, index) = readDivide(line, index)
     else:
       print('Invalid character found: ' + line[index])
       exit(1)
     tokens.append(token)
   return tokens
+
+
+def eval_part(tokens, index):
+  answer = 0.0
+  tokens.insert(index, {'type': 'PLUS'})
+  index += 1
+  while index < len(tokens) and (tokens[index]['type'] == 'PLUS' or tokens[index]['type'] == 'MINUS'):
+    if tokens[index]['type'] == 'NUMBER':
+      if tokens[index - 1]['type'] == 'PLUS':
+        answer += tokens[index]['number']
+      elif tokens[index - 1]['type'] == 'MULTI':
+        answer *= tokens[index]['number']
+      elif tokens[index - 1]['type'] == 'DIVIDE':
+        try:
+          answer /= tokens[index]['number']
+        except ZeroDivisionError:
+          print("ZeroDivisionError!!")
+    index += 1
+  return answer, index
+  
+
 
 def evaluate(tokens):
   answer = 0
@@ -46,6 +79,7 @@ def evaluate(tokens):
   while index < len(tokens):
     if tokens[index]['type'] == 'NUMBER':
       if tokens[index - 1]['type'] == 'PLUS':
+        tmp, index = eval_part(tokens, index)
         answer += tokens[index]['number']
       elif tokens[index - 1]['type'] == 'MINUS':
         answer -= tokens[index]['number']
