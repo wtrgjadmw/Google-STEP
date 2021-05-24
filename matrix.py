@@ -16,6 +16,10 @@ for n in range(N) :
     a = numpy.zeros((n, n)) # Matrix A
     b = numpy.zeros((n, n)) # Matrix B
     c = numpy.zeros((n, n)) # Matrix C
+    
+    # ALEX_COMMENT: given you used = numpy.zeros() above,
+    #               do you need to initialize c below?
+    #         Other than that, it all looks good!
 
     # 行列の初期化
     for i in range(n):
