@@ -48,6 +48,9 @@ class HashTable(object):
         tmp_node = head_node
         len_list = 0
 
+        # ALEX_COMMENT: the loop below is the main cause of ORDER N.
+        #              you don't need to search for the last entry.  You
+        #              can just use tail_node  -  it should always have the last entry.
         while tmp_node:
             len_list += 1
             tmp_node = tmp_node.next
@@ -55,6 +58,8 @@ class HashTable(object):
         
         if len_list >= 3:
             # ハッシュテーブルにデータがあり，ノードの前後にノードがある場合：既に連結リストにデータがあるということなので，付け替えて先頭に持ってくる
+            # ALEX_COMMENT:  the search algorithm is excluding both head and tail (is not None)...
+            #                that is probably why you are getting duplicates.
             if self.table[hashed_key] and (self.table[hashed_key].prev is not None) and (self.table[hashed_key].next is not None):
                 node = self.table[hashed_key]
                 prev_node = node.prev
