@@ -1,5 +1,3 @@
-import sys
-
 def readNumber(line, index):
   number = 0
   while index < len(line) and line[index].isdigit():
@@ -38,10 +36,11 @@ def readBrackets(line, index):
   index += 1
   index_l = index
   tokens = []
-  while line[index] != ")" and index < len(line):
+  while index < len(line) and line[index] != ")":
     tokens, index = update_tokenize(line, index, tokens)
-  if line[index] != ")":
-    raise ValueError("bracket is not closed")
+  if index == len(line) or line[index] != ")":
+    print("bracket is not closed")
+    exit(1)
   new_tokens = eval_part(tokens)
   answer = evaluate(new_tokens)
   token = {'type': 'number', 'number': answer}
@@ -133,7 +132,7 @@ def run_test():
   test("1+(2-(1+3)+5)+2")
   test("(2-(1+3)+5)")
   test("(2-(1+3)+5")
-  
+  test("2-(1+3)+5)")
   print("==== Test finished! ====\n")
 
 run_test()
