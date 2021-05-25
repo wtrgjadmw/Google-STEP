@@ -33,26 +33,34 @@ def readDivide(line, index):
   token = {'type': 'DIVIDE'}
   return token, index + 1
 
+
 def readBrackets(line, index):
   index += 1
   index_l = index
-  new_line = []
+  tokens = []
   while line[index] != ")" and index < len(line):
-    if line[index] == "(":
-      child_ans, index = readBrackets(line, index) 
-      new_line.append(str(child_ans))
+    if line[index].isdigit():
+      (token, index) = readNumber(line, index)
+    elif line[index] == '+':
+      (token, index) = readPlus(line, index)
+    elif line[index] == '-':
+      (token, index) = readMinus(line, index)
+    elif line[index] == '*':
+      (token, index) = readMulti(line, index)
+    elif line[index] == '/':
+      (token, index) = readDivide(line, index)
+    elif line[index] == "(":
+      (token, index) = readBrackets(line, index)
     else:
-      new_line.append(line[index])
-    index += 1
-  tokens = tokenize(new_line)
+      print('Invalid character found: ' + line[index])
+      exit(1)
+    tokens.append(token)
+  
   new_tokens = eval_part(tokens)
   answer = evaluate(new_tokens)
-  return answer, index
-
-def readBrackets_new(line, index):
-  ans, index = readBrackets(line, index)
-  token = {'type': 'number', 'number': int(ans)}
+  token = {'type': 'number', 'number': answer}
   return token, index + 1
+
 
 def tokenize(line):
   tokens = []
@@ -69,7 +77,7 @@ def tokenize(line):
     elif line[index] == '/':
       (token, index) = readDivide(line, index)
     elif line[index] == "(":
-      (token, index) = readBrackets_new(line, index)
+      (token, index) = readBrackets(line, index)
     else:
       print('Invalid character found: ' + line[index])
       exit(1)
@@ -90,7 +98,6 @@ def eval_part(tokens):
     elif tokens[index]['type'] == 'MULTI':
       tmp *= tokens[index + 1]['number']
     elif tokens[index]['type'] == 'DIVIDE':
-      # tmp /= tokens[index + 1]['number']
       try:
         tmp /= tokens[index + 1]['number']
       except ZeroDivisionError:
@@ -131,17 +138,9 @@ def test(line):
 # Add more tests to this function :)
 def run_test():
   print("==== Test started! ====")
-  
-  
   test("1*2+(2-(1+3))")
-  
+  test("1*2+(6-(1+3))")
+  test("1*2+(2-(1+3)+5)")
   print("==== Test finished! ====\n")
 
 run_test()
-
-# while True:
-#   line = input()
-#   tokens = tokenize(line)
-#   new_tokens = eval_part(tokens)
-#   answer = evaluate(new_tokens)
-#   print("answer = %f\n" % answer)
