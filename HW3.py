@@ -40,6 +40,8 @@ def readBrackets(line, index):
   tokens = []
   while line[index] != ")" and index < len(line):
     tokens, index = update_tokenize(line, index, tokens)
+  if line[index] != ")":
+    raise ValueError("bracket is not closed")
   new_tokens = eval_part(tokens)
   answer = evaluate(new_tokens)
   token = {'type': 'number', 'number': answer}
@@ -63,6 +65,7 @@ def update_tokenize(line, index, tokens):
     exit(1)
   tokens.append(token)
   return tokens, index
+
 
 def tokenize(line):
   tokens = []
@@ -89,7 +92,7 @@ def eval_part(tokens):
         tmp /= tokens[index + 1]['number']
       except ZeroDivisionError:
         print("ZeroDivisionError!!")
-        sys.exit()
+        exit(1)
     index += 2
   new_tokens.append({'type': 'NUMBER', 'number': tmp})
   return new_tokens
@@ -110,7 +113,7 @@ def evaluate(tokens):
     index += 1
   return answer
 
-  
+
 def test(line):
   tokens = tokenize(line)
   new_tokens = eval_part(tokens)
@@ -125,8 +128,12 @@ def test(line):
 # Add more tests to this function :)
 def run_test():
   print("==== Test started! ====")
-  test("1*2+(2-(1+3))")
-  test("1*2+(2.4-(1.2+3.6))")
+  test("1+(2-(1+3))")
+  test("1+(2-(1+3)+5)")
+  test("1+(2-(1+3)+5)+2")
+  test("(2-(1+3)+5)")
+  test("(2-(1+3)+5")
+  
   print("==== Test finished! ====\n")
 
 run_test()

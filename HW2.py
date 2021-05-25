@@ -72,7 +72,7 @@ def eval_part(tokens):
         tmp /= tokens[index + 1]['number']
       except ZeroDivisionError:
         print("ZeroDivisionError!!")
-        sys.exit()
+        exit(1)
     index += 2
   new_tokens.append({'type': 'NUMBER', 'number': tmp})
   return new_tokens
