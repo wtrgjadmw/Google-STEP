@@ -39,49 +39,36 @@ def readBrackets(line, index):
   index_l = index
   tokens = []
   while line[index] != ")" and index < len(line):
-    if line[index].isdigit():
-      (token, index) = readNumber(line, index)
-    elif line[index] == '+':
-      (token, index) = readPlus(line, index)
-    elif line[index] == '-':
-      (token, index) = readMinus(line, index)
-    elif line[index] == '*':
-      (token, index) = readMulti(line, index)
-    elif line[index] == '/':
-      (token, index) = readDivide(line, index)
-    elif line[index] == "(":
-      (token, index) = readBrackets(line, index)
-    else:
-      print('Invalid character found: ' + line[index])
-      exit(1)
-    tokens.append(token)
-  
+    tokens, index = update_tokenize(line, index, tokens)
   new_tokens = eval_part(tokens)
   answer = evaluate(new_tokens)
   token = {'type': 'number', 'number': answer}
   return token, index + 1
 
+def update_tokenize(line, index, tokens):
+  if line[index].isdigit():
+    (token, index) = readNumber(line, index)
+  elif line[index] == '+':
+    (token, index) = readPlus(line, index)
+  elif line[index] == '-':
+    (token, index) = readMinus(line, index)
+  elif line[index] == '*':
+    (token, index) = readMulti(line, index)
+  elif line[index] == '/':
+    (token, index) = readDivide(line, index)
+  elif line[index] == "(":
+    (token, index) = readBrackets(line, index)
+  else:
+    print('Invalid character found: ' + line[index])
+    exit(1)
+  tokens.append(token)
+  return tokens, index
 
 def tokenize(line):
   tokens = []
   index = 0
   while index < len(line):
-    if line[index].isdigit():
-      (token, index) = readNumber(line, index)
-    elif line[index] == '+':
-      (token, index) = readPlus(line, index)
-    elif line[index] == '-':
-      (token, index) = readMinus(line, index)
-    elif line[index] == '*':
-      (token, index) = readMulti(line, index)
-    elif line[index] == '/':
-      (token, index) = readDivide(line, index)
-    elif line[index] == "(":
-      (token, index) = readBrackets(line, index)
-    else:
-      print('Invalid character found: ' + line[index])
-      exit(1)
-    tokens.append(token)
+    tokens, index = update_tokenize(line, index, tokens)
   return tokens
 
 # 3 + 4 * 2 - 1 / 5 -> 3 + 8 - 0.2にする
@@ -139,8 +126,7 @@ def test(line):
 def run_test():
   print("==== Test started! ====")
   test("1*2+(2-(1+3))")
-  test("1*2+(6-(1+3))")
-  test("1*2+(2-(1+3)+5)")
+  test("1*2+(2.4-(1.2+3.6))")
   print("==== Test finished! ====\n")
 
 run_test()
