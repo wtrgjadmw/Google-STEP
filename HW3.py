@@ -36,17 +36,23 @@ def readDivide(line, index):
 def readBrackets(line, index):
   index += 1
   index_l = index
+  new_line = []
   while line[index] != ")" and index < len(line):
     if line[index] == "(":
-      readBrackets(line, index)
+      child_ans, index = readBrackets(line, index) 
+      new_line.append(str(child_ans))
+    else:
+      new_line.append(line[index])
     index += 1
-  index_r = index
-  print(line[index_l:index_r])
-  tokens = tokenize(line[index_l:index_r])
+  tokens = tokenize(new_line)
   new_tokens = eval_part(tokens)
   answer = evaluate(new_tokens)
-  new_token = {"type": "number", "number": answer}
-  return new_token, index + 1
+  return answer, index
+
+def readBrackets_new(line, index):
+  ans, index = readBrackets(line, index)
+  token = {'type': 'number', 'number': int(ans)}
+  return token, index + 1
 
 def tokenize(line):
   tokens = []
@@ -63,7 +69,7 @@ def tokenize(line):
     elif line[index] == '/':
       (token, index) = readDivide(line, index)
     elif line[index] == "(":
-      (token, index) = readBrackets(line, index)
+      (token, index) = readBrackets_new(line, index)
     else:
       print('Invalid character found: ' + line[index])
       exit(1)
@@ -125,20 +131,10 @@ def test(line):
 # Add more tests to this function :)
 def run_test():
   print("==== Test started! ====")
-  # test("1")
-  # test("1+2")
-  # test("1.0+2")
-  # test("1.0+2.1")
-  # test("1.0+2.1-3")
-  # test("1.0+2.1-3.6")
-  # test("1.0+2.1-3.6*2.4")
-  # test("1.0+2.1/0.7-3.6*2.4/1.2")
-  # test("1.0+2.1/0.7-3.6*2.4/1.2/0.6")
-  # test("1.0*2.5+2.1/0.7-3.6*2.4/1.2/0.6")
-  # test("1.0*2.5+2.1/0.7-3.6*2.4/1.2/0.6-2.4")
-  # test("1*2+(2/0.5-3*2/2/1.5-1.2)")
-  test("1*2+(2/0.5-(3*2/2/1.5-1.2))")
-  # test("1*2+(2/0.5-(3*2/4-1.4)-1.2))")
+  
+  
+  test("1*2+(2-(1+3))")
+  
   print("==== Test finished! ====\n")
 
 run_test()
