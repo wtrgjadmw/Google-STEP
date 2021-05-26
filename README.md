@@ -1,3 +1,5 @@
+![#1589F0](https://via.placeholder.com/15/1589F0/000000?text=+) `#1589F0`
+
 ## 宿題 1
 
 eval_part という関数を追加した。
@@ -23,32 +25,32 @@ eval_part という関数を追加した。
 
 ---
 
-index = 1, tmp = 1 <span style="color: blue;">-> 2</span><br/>
-tokens: 1 <span style="color: blue;">+</span> 2 \* 3 + 4 / 2<br/>
-new_tokens: <span style="color: blue;">1 +</span>
+index = 1, tmp = 1 <span style="color: #1589F0;">-> 2</span><br/>
+tokens: 1 <span style="color: #1589F0;">+</span> 2 \* 3 + 4 / 2<br/>
+new_tokens: <span style="color: #1589F0;">1 +</span>
 
 ---
 
-index = 3, tmp = 2 <span style="color: blue;">-> 6 (2 _ 3)</span><br/>
-tokens: 1 + 2 <span style="color: blue;">_</span> 3 + 4 / 2<br/>
+index = 3, tmp = 2 <span style="color: #1589F0;">-> 6 (2 _ 3)</span><br/>
+tokens: 1 + 2 <span style="color: #1589F0;">_</span> 3 + 4 / 2<br/>
 new_tokens: 1 +
 
 ---
 
-index = 5, tmp = 6<span style="color: blue;">-> 4</span><br/>
-tokens: 1 + 2 \* 3 <span style="color: blue;">+</span> 4 / 2<br/>
-new_tokens: 1 + <span style="color: blue;">6 +</span>
+index = 5, tmp = 6<span style="color: #1589F0;">-> 4</span><br/>
+tokens: 1 + 2 \* 3 <span style="color: #1589F0;">+</span> 4 / 2<br/>
+new_tokens: 1 + <span style="color: #1589F0;">6 +</span>
 
 ---
 
-index = 7, tmp = 4 <span style="color: blue;">-> 2 ( 4 / 2)</span><br/>
-tokens: 1 + 2 \* 3 + 4 <span style="color: blue;">/</span> 2<br/>
+index = 7, tmp = 4 <span style="color: #1589F0;">-> 2 ( 4 / 2)</span><br/>
+tokens: 1 + 2 \* 3 + 4 <span style="color: #1589F0;">/</span> 2<br/>
 new_tokens: 1 + 6 +
 
 ---
 
 ループ脱出<br/>
-new_tokens: 1 + 6 + <span style="color: blue;">2</span>
+new_tokens: 1 + 6 + <span style="color: #1589F0;">2</span>
 
 ## 宿題 2
 
