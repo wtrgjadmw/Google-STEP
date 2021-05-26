@@ -53,7 +53,6 @@ new_tokens: 1 + 6 +
 new_tokens: 1 + 6 + <span style="color: #1589F0;">2</span>
 → 終了。new_tokens を返す
 
-## 宿題 2
 
 ## 宿題 3
 
