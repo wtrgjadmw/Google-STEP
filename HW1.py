@@ -55,10 +55,13 @@ def tokenize(line):
 def eval_part(tokens):
   new_tokens = []
   index = 0
+
+  # -から始まる式(ex. -1+2)に対応
   while tokens[index]['type'] != 'NUMBER' and index < len(tokens):
     new_tokens.append(tokens[index])
     index += 1
   tmp = tokens[index]['number']
+
   index += 1
   while index < len(tokens):
     if tokens[index]['type'] == 'PLUS' or tokens[index]['type'] == 'MINUS':
@@ -76,7 +79,6 @@ def eval_part(tokens):
         exit(1)
     index += 2
   new_tokens.append({'type': 'NUMBER', 'number': tmp})
-  print(tokens, new_tokens)
   return new_tokens
 
 

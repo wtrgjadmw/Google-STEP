@@ -76,7 +76,6 @@ def eval_part(tokens):
         exit(1)
     index += 2
   new_tokens.append({'type': 'NUMBER', 'number': tmp})
-  print(tokens, new_tokens)
   return new_tokens
   
 # only for addition or substraction

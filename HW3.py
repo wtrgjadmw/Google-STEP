@@ -77,8 +77,12 @@ def tokenize(line):
 # 3 + 4 * 2 - 1 / 5 -> 3 + 8 - 0.2にする
 def eval_part(tokens):
   new_tokens = []
-  tmp = tokens[0]['number']
-  index = 1
+  index = 0
+  while tokens[index]['type'] != 'NUMBER' and index < len(tokens):
+    new_tokens.append(tokens[index])
+    index += 1
+  tmp = tokens[index]['number']
+  index += 1
   while index < len(tokens):
     if tokens[index]['type'] == 'PLUS' or tokens[index]['type'] == 'MINUS':
       new_tokens.append({'type': 'NUMBER', 'number': tmp})
