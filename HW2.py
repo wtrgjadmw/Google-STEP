@@ -54,8 +54,12 @@ def tokenize(line):
 # 3 + 4 * 2 - 1 / 5 -> 3 + 8 - 0.2にする
 def eval_part(tokens):
   new_tokens = []
-  tmp = tokens[0]['number']
-  index = 1
+  index = 0
+  while tokens[index]['type'] != 'NUMBER' and index < len(tokens):
+    new_tokens.append(tokens[index])
+    index += 1
+  tmp = tokens[index]['number']
+  index += 1
   while index < len(tokens):
     if tokens[index]['type'] == 'PLUS' or tokens[index]['type'] == 'MINUS':
       new_tokens.append({'type': 'NUMBER', 'number': tmp})
@@ -65,7 +69,6 @@ def eval_part(tokens):
     elif tokens[index]['type'] == 'MULTI':
       tmp *= tokens[index + 1]['number']
     elif tokens[index]['type'] == 'DIVIDE':
-      # tmp /= tokens[index + 1]['number']
       try:
         tmp /= tokens[index + 1]['number']
       except ZeroDivisionError:
@@ -73,10 +76,10 @@ def eval_part(tokens):
         exit(1)
     index += 2
   new_tokens.append({'type': 'NUMBER', 'number': tmp})
+  print(tokens, new_tokens)
   return new_tokens
   
-
-
+# only for addition or substraction
 def evaluate(tokens):
   answer = 0
   tokens.insert(0, {'type': 'PLUS'}) # Insert a dummy '+' token
@@ -107,6 +110,21 @@ def test(line):
 # Add more tests to this function :)
 def run_test():
   print("==== Test started! ====")
+
+  # test for addition and substraction
+  test("1")
+  test("1+2")
+  test("1-2")
+  test("-1+2")
+
+  # test for float
+  test("1.0")
+  test("1+2.0")
+  test("1.0+2.0")
+  # test for error
+  # test(".1")
+
+  # test for multiplication and division
   test("1-2*3")
   test("2*3-1")
   test("1+2*3+4")
@@ -116,7 +134,9 @@ def run_test():
   test("2*3/4")
   test("1+2*3/4")
   test("2*3/4+1")
+  # test for ZeroDivisionError
   test("2/0")
+
   print("==== Test finished! ====\n")
 
 run_test()

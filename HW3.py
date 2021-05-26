@@ -127,12 +127,19 @@ def test(line):
 # Add more tests to this function :)
 def run_test():
   print("==== Test started! ====")
-  test("1+(2-(1+3))")
+
+  test("(1-2)")
+  test("1+(2+3)")
+  test("1-(2+3)")
+  test("(2-(1+3))")
+  test("(2-(1+3)+5)")
   test("1+(2-(1+3)+5)")
   test("1+(2-(1+3)+5)+2")
-  test("(2-(1+3)+5)")
+  
+  # test for error (bracket is not closed)
   test("(2-(1+3)+5")
   test("2-(1+3)+5)")
+
   print("==== Test finished! ====\n")
 
 run_test()
