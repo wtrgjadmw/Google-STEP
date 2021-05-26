@@ -21,7 +21,7 @@ eval_part という関数を追加した。
 
 3. 2 を繰り返して tokens を最後まで参照したら，最後に保持している tmp を new_tokens に追加する。
 
-具体例 (1 + 2\*3 + 4/2) を使って流れを見ていく。(青字が更新部分)
+具体例 (1 + 2\*3 + 4/2) を使って流れを見ていく。
 
 ---
 
@@ -31,19 +31,19 @@ new_tokens: <span style="color: #1589F0;">1 +</span>
 
 ---
 
-index = 3, tmp = 2 <span style="color: #1589F0;">-> 6 (2 _ 3)</span><br/>
+index = 3, tmp = 2 <span style="color: #1589F0;">-> 6 (2 * 3)</span><br/>
 tokens: 1 + 2 <span style="color: #1589F0;">_</span> 3 + 4 / 2<br/>
 new_tokens: 1 +
 
 ---
 
-index = 5, tmp = 6<span style="color: #1589F0;">-> 4</span><br/>
+index = 5, tmp = 6 <span style="color: #1589F0;">-> 4</span><br/>
 tokens: 1 + 2 \* 3 <span style="color: #1589F0;">+</span> 4 / 2<br/>
 new_tokens: 1 + <span style="color: #1589F0;">6 +</span>
 
 ---
 
-index = 7, tmp = 4 <span style="color: #1589F0;">-> 2 ( 4 / 2)</span><br/>
+index = 7, tmp = 4 <span style="color: #1589F0;">-> 2 (4 / 2)</span><br/>
 tokens: 1 + 2 \* 3 + 4 <span style="color: #1589F0;">/</span> 2<br/>
 new_tokens: 1 + 6 +
 
@@ -51,7 +51,20 @@ new_tokens: 1 + 6 +
 
 ループ脱出<br/>
 new_tokens: 1 + 6 + <span style="color: #1589F0;">2</span>
+→終了。new_tokensを返す
 
 ## 宿題 2
 
+
+
 ## 宿題 3
+
+関数update_tokensとreadBracketsを追加した。
+
+### update_tokensの仕様
+
+関数tokenizeのwhileの中身をmodule化しただけのもの
+
+### readBracketsの仕様
+
+lineを読み込み，()の中身を計算して，type = NUMBER のtokenを返す。
