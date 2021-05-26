@@ -78,7 +78,6 @@ def eval_part(tokens):
   new_tokens.append({'type': 'NUMBER', 'number': tmp})
   print(tokens, new_tokens)
   return new_tokens
-  
 
 
 def evaluate(tokens):

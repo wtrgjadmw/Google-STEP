@@ -46,6 +46,7 @@ def readBrackets(line, index):
   token = {'type': 'number', 'number': answer}
   return token, index + 1
 
+
 def update_tokenize(line, index, tokens):
   if line[index].isdigit():
     (token, index) = readNumber(line, index)
@@ -128,6 +129,7 @@ def test(line):
 def run_test():
   print("==== Test started! ====")
 
+  # test for addition and substraction
   test("(1-2)")
   test("1+(2+3)")
   test("1-(2+3)")
@@ -135,7 +137,22 @@ def run_test():
   test("(2-(1+3)+5)")
   test("1+(2-(1+3)+5)")
   test("1+(2-(1+3)+5)+2")
+
+  # test for multiplication and division
+  test("(1+2)*3")
+  test("1+(1+2)*3")
+  test("(1+2)*3+1")
+  test("1*(2+3)")
+  test("1*(2+3)*4")
+  test("(1+2)*(3+4)")
+  test("(1+2)/3")
+  test("1+(1+2)/3")
+  test("(1+2)/3+1")
+  test("1/(2+3)")
+  test("1/(2+3)/4")
+  test("(1+2)/(3+4)")
   
+
   # test for error (bracket is not closed)
   test("(2-(1+3)+5")
   test("2-(1+3)+5)")
