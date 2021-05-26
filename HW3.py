@@ -37,7 +37,7 @@ def readBrackets(line, index):
   index_l = index
   tokens = []
   while index < len(line) and line[index] != ")":
-    tokens, index = update_tokenize(line, index, tokens)
+    tokens, index = make_new_token(line, index, tokens)
   if index == len(line) or line[index] != ")":
     print("bracket is not closed")
     exit(1)
@@ -47,7 +47,7 @@ def readBrackets(line, index):
   return token, index + 1
 
 
-def update_tokenize(line, index, tokens):
+def make_new_token(line, index, tokens):
   if line[index].isdigit():
     (token, index) = readNumber(line, index)
   elif line[index] == '+':
@@ -71,7 +71,7 @@ def tokenize(line):
   tokens = []
   index = 0
   while index < len(line):
-    tokens, index = update_tokenize(line, index, tokens)
+    tokens, index = make_new_token(line, index, tokens)
   return tokens
 
 # 3 + 4 * 2 - 1 / 5 -> 3 + 8 - 0.2にする

@@ -31,8 +31,8 @@ new_tokens: <span style="color: #1589F0;">1 +</span>
 
 ---
 
-index = 3, tmp = 2 <span style="color: #1589F0;">-> 6 (2 * 3)</span><br/>
-tokens: 1 + 2 <span style="color: #1589F0;">_</span> 3 + 4 / 2<br/>
+index = 3, tmp = 2 <span style="color: #1589F0;">-> 6 (2 \* 3)</span><br/>
+tokens: 1 + 2 <span style="color: #1589F0;">\*</span> 3 + 4 / 2<br/>
 new_tokens: 1 +
 
 ---
@@ -51,20 +51,59 @@ new_tokens: 1 + 6 +
 
 ループ脱出<br/>
 new_tokens: 1 + 6 + <span style="color: #1589F0;">2</span>
-→終了。new_tokensを返す
+→ 終了。new_tokens を返す
 
 ## 宿題 2
 
-
-
 ## 宿題 3
 
-関数update_tokensとreadBracketsを追加した。
+関数 make_new_token と readBrackets を追加した。
 
-### update_tokensの仕様
+### make_new_token の仕様
 
-関数tokenizeのwhileの中身をmodule化しただけのもの
+関数 tokenize の while の中身を module 化しただけのもの
 
-### readBracketsの仕様
+### readBrackets の仕様
 
-lineを読み込み，()の中身を計算して，type = NUMBER のtokenを返す。
+line を読み込み，()の中身を計算して，type = NUMBER の token を返す関数。()を含む式の計算は，次の 1〜3の流れで行われる。
+
+1. tokenize(line)で line の index 番目に"("があれば，readBrackets(line, index)が行われる。
+
+2. readBrackets:
+   空の配列 new_tokens を用意し，")"が来るまで make_new_tokenで作った新しいtokenを追加していく。
+  new_tokensは()を持たない計算式になっているので，宿題２までと同様に計算し，この結果を返す。
+
+3. tokenize(line)のループに戻る
+
+具体例（ 1 + (2 - (3 + 4)) ）を使って流れを見ていく。
+
+***
+tokenizeで(の前まで読み込む<br/>
+index = 2<br/>
+tokens: 1 + 
+
+***
+readBracketsに入る<br/>
+index = 3 <br/>
+tokens: 1 + <br/>
+new_tokens: 2
+
+***
+readBracket内<br/>
+index = 4 <br/>
+tokens: 1 + <br/>
+new_tokens: 2 -
+
+***
+readBracketの中でさらにreadBracketに入る（再帰）→ 3 + 4 = 7 のtokenが返される。また，(3+4)の分だけindexが進む<br/>
+index = 10 → ")"なのでwhileループ終了<br/>
+tokens: 1 + <br/>
+new_tokens: 2 - 7
+
+***
+new_tokensの計算→2 - 7 = -5のtokenとindex=11が返される
+
+index = 11<br/>
+tokens: 1 + -5<br/>
+
+tokenize内のループに戻る
