@@ -1,5 +1,3 @@
-import sys
-
 def readNumber(line, index):
   number = 0
   while index < len(line) and line[index].isdigit():
