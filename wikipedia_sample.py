@@ -1,25 +1,55 @@
+def dfs(pages, links, arrived_time):
+  for k, v in pages.items():
+    if v == 'Google':
+      index_google = k
+    if v == "ラーメン":
+      index_item = k
+      
+  arrived_time[index_google] = 0
+  stack = [index_google]
+  
+  while stack:
+    index_tmp = stack.pop()
+    for index_neighbor in links[index_tmp]:
+      
+      if arrived_time[index_neighbor] < 0:
+        arrived_time[index_neighbor] = arrived_time[index_tmp] + 1
+        if index_neighbor in links:
+          stack.append(index_neighbor)
+      else:
+        arrived_time[index_neighbor] = min(arrived_time[index_neighbor], arrived_time[index_tmp] + 1)
+  
+  return arrived_time[index_item]
+
+
+
 def main():
   pages = {}
   links = {}
 
+  max_page_id = 0
   with open('data/pages_small.txt') as f:
     for data in f.read().splitlines():
       page = data.split('\t')
       # page[0]: id, page[1]: title
-      pages[page[0]] = page[1]
+      pages[int(page[0])] = page[1]
+      max_page_id = max(max_page_id, int(page[0]))
+      # if max_page_id < page[0]:
+      #   max_page_id = page[0]
 
   with open('data/links_small.txt') as f:
     for data in f.read().splitlines():
       link = data.split('\t')
       # link[0]: id (from), links[1]: id (to)
+      link[0], link[1] = int(link[0]), int(link[1])
       if link[0] in links:
         links[link[0]].add(link[1])
       else:
         links[link[0]] = {link[1]}
 
-  for k, v in pages.items():
-    if v == 'Google':
-      print('Google', k)
+  arrived_time = [-1] * max_page_id
+  print(dfs(pages, links, arrived_time))
+
 
 
 if __name__ == '__main__':
