@@ -2,7 +2,7 @@ def dfs(pages, links, arrived_time):
   for k, v in pages.items():
     if v == 'Google':
       index_google = k
-    if v == "ラーメン":
+    if v == "じゃんけん":
       index_item = k
       
   arrived_time[index_google] = 0
@@ -16,6 +16,29 @@ def dfs(pages, links, arrived_time):
         arrived_time[index_neighbor] = arrived_time[index_tmp] + 1
         if index_neighbor in links:
           stack.append(index_neighbor)
+      else:
+        arrived_time[index_neighbor] = min(arrived_time[index_neighbor], arrived_time[index_tmp] + 1)
+  
+  return arrived_time[index_item]
+
+def bfs(pages, links, arrived_time):
+  for k, v in pages.items():
+    if v == 'Google':
+      index_google = k
+    if v == "じゃんけん":
+      index_item = k
+      
+  arrived_time[index_google] = 0
+  queue = [index_google]
+  
+  while queue:
+    index_tmp = queue.pop(0)
+    for index_neighbor in links[index_tmp]:
+      
+      if arrived_time[index_neighbor] < 0:
+        arrived_time[index_neighbor] = arrived_time[index_tmp] + 1
+        if index_neighbor in links:
+          queue.append(index_neighbor)
       else:
         arrived_time[index_neighbor] = min(arrived_time[index_neighbor], arrived_time[index_tmp] + 1)
   
@@ -49,6 +72,7 @@ def main():
 
   arrived_time = [-1] * max_page_id
   print(dfs(pages, links, arrived_time))
+  print(bfs(pages, links, arrived_time))
 
 
 
