@@ -1,3 +1,7 @@
+#ALEX_COMMENT:  intent of this exercise is to deliver modular,
+#               readable code.   it would be good to have
+#               comments at the top of each function, stating what they do
+
 def readNumber(line, index):
   number = 0
   while index < len(line) and line[index].isdigit():
@@ -51,6 +55,10 @@ def tokenize(line):
     tokens.append(token)
   return tokens
 
+#ALEX_COMMENT:  from your comment, I understand this resolves multiplication and division,
+#               so eval_part is a poor function name.
+#               perhaps eval_mult_div ?
+
 # 3 + 4 * 2 - 1 / 5 -> 3 + 8 - 0.2にする
 def eval_part(tokens):
   new_tokens = []
@@ -62,6 +70,8 @@ def eval_part(tokens):
     index += 1
   tmp = tokens[index]['number']
 
+  # ALEX_COMMENT:  would it be more performant to remove elements from the 
+  #                existing tokens[] array?  food for thought.
   index += 1
   while index < len(tokens):
     if tokens[index]['type'] == 'PLUS' or tokens[index]['type'] == 'MINUS':
@@ -100,6 +110,7 @@ def evaluate(tokens):
 
 while True:
   line = input()
+  # ALEX_COMMENT:  good modularization here!
   tokens = tokenize(line)
   new_tokens = eval_part(tokens)
   answer = evaluate(new_tokens)
