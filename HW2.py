@@ -94,7 +94,8 @@ def evaluate(tokens):
     index += 1
   return answer
 
-  
+#ALEX_COMMENT:  suggestion:  separate test code and code under test into different source code files
+
 def test(line):
   tokens = tokenize(line)
   new_tokens = eval_part(tokens)
