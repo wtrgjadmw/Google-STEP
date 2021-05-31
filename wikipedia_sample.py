@@ -1,8 +1,8 @@
-def dfs(pages, links, arrived_time):
+def dfs(pages, links, arrived_time, searched_word):
   for k, v in pages.items():
     if v == 'Google':
       index_google = k
-    if v == "じゃんけん":
+    if v == searched_word:
       index_item = k
       
   arrived_time[index_google] = 0
@@ -20,11 +20,11 @@ def dfs(pages, links, arrived_time):
   
   return arrived_time[index_item]
 
-def bfs(pages, links, arrived_time, prev_spot):
+def bfs(pages, links, arrived_time, prev_spot, searched_word):
   for k, v in pages.items():
     if v == 'Google':
       index_google = k
-    if v == "じゃんけん":
+    if v == searched_word:
       index_item = k
       
   arrived_time[index_google] = 0
@@ -50,14 +50,14 @@ def main():
   links = {}
 
   max_page_id = 0
-  with open('data/pages_small.txt') as f:
+  with open('data/pages.txt') as f:
     for data in f.read().splitlines():
       page = data.split('\t')
       # page[0]: id, page[1]: title
       pages[int(page[0])] = page[1]
       max_page_id = max(max_page_id, int(page[0]))
 
-  with open('data/links_small.txt') as f:
+  with open('data/links.txt') as f:
     for data in f.read().splitlines():
       link = data.split('\t')
       # link[0]: id (from), links[1]: id (to)
@@ -67,18 +67,20 @@ def main():
       else:
         links[link[0]] = {link[1]}
 
-  arrived_time = [-1] * max_page_id
-  prev_spot = [""] * max_page_id
-  # print(dfs(pages, links, [-1] * max_page_id))
-  # print(bfs(pages, links, [-1] * max_page_id, [-1] * max_page_id))
+  arrived_time = [-1] * (max_page_id + 1)
+  prev_spot = [""] * (max_page_id + 1)
   
   route = []
-  arrived_time, prev_spot, tmp = bfs(pages, links, arrived_time, prev_spot)
-  while pages[tmp] != "Google":
+  arrived_time, prev_spot, tmp = bfs(pages, links, arrived_time, prev_spot, "渋谷")
+  if arrived_time[tmp] == -1:
+    print("is not connected")
+  else:
+    while pages[tmp] != "Google":
+      route.append(pages[tmp])
+      tmp = prev_spot[tmp]
     route.append(pages[tmp])
-    tmp = prev_spot[tmp]
-  route.append(pages[tmp])
-  print(route)
+    route.reverse()
+    print(route)
 
 
 if __name__ == '__main__':
