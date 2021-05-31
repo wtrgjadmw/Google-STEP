@@ -32,6 +32,8 @@ def readDivide(line, index):
   return token, index + 1
 
 
+#ALEX_COMMENT:  readBrackets is doing much more than "read", it actually does a complete
+#               nested expression evaluation inside it.  Maybe it should have a better name?
 def readBrackets(line, index):
   index += 1
   index_l = index
@@ -41,6 +43,9 @@ def readBrackets(line, index):
   if index == len(line) or line[index] != ")":
     print("bracket is not closed")
     exit(1)
+    
+  # ALEX_COMMENT:  the following 3 lines are the core of the evaluator, and they are repeated
+  #                inside test()
   new_tokens = eval_part(tokens)
   answer = evaluate(new_tokens)
   token = {'type': 'number', 'number': answer}
@@ -58,6 +63,9 @@ def make_new_token(line, index, tokens):
     (token, index) = readMulti(line, index)
   elif line[index] == '/':
     (token, index) = readDivide(line, index)
+  # ALEX_COMMENT:  the logic below is good,
+  #                but from a modularization standpoint, maybe it would be nicer to separate
+  #                bracket handling from the rest of the tokens?
   elif line[index] == "(":
     (token, index) = readBrackets(line, index)
   else:
@@ -67,6 +75,10 @@ def make_new_token(line, index, tokens):
   return tokens, index
 
 
+# ALEX_COMMENT:  tokenize gets called only once, and it does nothing but to call
+#                make_new_token in a loop.
+#                Maybe you can refactor this nicer,  or remove this and put 
+#                this loop at the top function?
 def tokenize(line):
   tokens = []
   index = 0
@@ -119,6 +131,8 @@ def evaluate(tokens):
 
 
 def test(line):
+  # ALEX_COMMENT:  the lines below are definetly part of the main logic.
+  #                they must not be inside the test code, must be separated.
   tokens = tokenize(line)
   new_tokens = eval_part(tokens)
   actual_answer = evaluate(new_tokens)
