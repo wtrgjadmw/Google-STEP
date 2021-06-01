@@ -42,3 +42,12 @@ python3 page_rank.py
 日本 751625.391684508
 ```
 と出力されるはずです。
+
+## コードの説明
+### read_pages(), read_links()
+wikipedia_sample.pyと同じです。
+
+### page_ranking(pages, links, page_rank)
+
+### print_highrank(pages, links, max_page_id))
+最もページランクの高いページ名とそのスコアを出力します。
