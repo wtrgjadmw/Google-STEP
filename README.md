@@ -1,82 +1,35 @@
-# Google STEP Class 4 Homework
-
-## 課題内容
-
-### 1. Wikipediaのグラフを使ってなにか面白いことをしてみよう
-
-- 必須："Google"から"渋谷"までを（最短で）たどる方法を探す
-- その他なんでも
-    - 例：孤立している隠されたページを探す
-    - 例：ページランクの高いものを探す
-
-### 2. 他の人の書いたコードを自分の環境で実行してレビューする
-
-- スライド参照
-
-## 準備
-
-[wikipedia_data.zip](https://drive.google.com/file/d/1zqtjSb-ZoR4rzVUWZrjNSES5GKJhYmmH/view?usp=sharing) をダウンロードして解凍し、以下のようなディレクトリ構成にしてください。
-
-```
-step_wikipedia-graph
-├── data
-│   ├── graph_small.png
-│   ├── links_small.txt
-│   ├── links.txt
-│   ├── pages_small.txt
-│   └── pages.txt
-├── .gitignore
-├── README.md
-├── wikipedia_sample.cc
-├── wikipedia_sample.py
-└── WikipediaSample.java
-```
-
-## グラフデータ
-
-`data/` に含まれるファイルで、実際に使うものは以下の2つです。
-
-- pages.txt：各ページのidとタイトルのリスト
-- links.txt：各リンクのリンク元とリンク先のリスト
-
-以下の3つはテスト用の小さなグラフを表すデータです。
-
-- pages_small.txt
-- links_small.txt
-- graph_small.png
-
-詳細はスライドを参照してください。
-
-数年前のデータを使っているため、最新の Wikipedia とは異なるリンク構造になっていることに注意してください。
-
-## サンプルコード
-
-データの読み込みを行うサンプルコードを用意しました。サンプルでしかないため、改善できるところもたくさんあるはずです。何か気づいたら自分で書き換えてみてください。
-
-各プログラムを実行すると、Google をタイトルとするページの id が表示されます。
-
-### 実行方法
-
-#### C++
-
-テスト環境: g++ 10.2.1
-
+# 必須課題
+wikipedia_sample.pyに記載
+## 仕様
 ```shell
-g++ wikipedia_sample.cc && ./a.out
+python3 wikipedia_sample.py <探したいページ名>
 ```
-
-#### Java
-
-テスト環境: JDK 11.0.11
-
+で実行すると，Googleから探したいページまでの経路を返します。<br/>
+存在しないページ名を入れると，
 ```shell
-javac WikipediaSample.java && java WikipediaSample
+The graph doesn't have the word
 ```
-
-#### Python
-
-テスト環境: Python 3.9.2
-
+を返します。
+<br/><br/>
+具体例）Googleと渋谷の経路を探す場合は，
 ```shell
-python3 wikipedia_sample.py
+python3 wikipedia_sample.py 渋谷
 ```
+で実行すると，
+```shell
+['Google', 'セグウェイ', '渋谷']
+```
+が返ります。
+
+# 発展課題
+
+ページランクを実装しました。（page_rank.pyに記載）
+## 仕様
+```shell
+python3 page_rank.py
+```
+で実行すると，最もページランクの高いページ名とそのスコアが返されます。
+```shell
+日本 751625.391684508
+```
+が返されるはずです。
