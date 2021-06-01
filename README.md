@@ -13,7 +13,7 @@ The graph doesn't have the word
 <br/><br/>
 具体例）Googleと渋谷の経路を探す場合は，
 ```shell
-python3 wikipedia_sample.py 渋谷
+python3 wikipedia_sample.py Google 渋谷
 ```
 で実行すると，
 ```shell
@@ -25,9 +25,9 @@ python3 wikipedia_sample.py 渋谷
 ### read_pages(), read_links()
 Yukiさんが作成してくださったコードそのままです。それぞれpages, linksを返します。
 
-### bfs(pages, links, arrived_time, prev_spot, searched_word)
+### bfs(pages, links, arrived_time, prev_spot, start_word, goal_word)
 
-### print_route(max_page_id, pages, links, searched_word)
+### print_route(max_page_id, pages, links, start_word, goal_word)
 スタートからゴールまでの経路を出力します。
 
 # 発展課題
