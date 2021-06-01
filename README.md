@@ -9,7 +9,7 @@ python3 wikipedia_sample.py <探したいページ名>
 ```shell
 The graph doesn't have the word
 ```
-を返します。
+と出力されます。
 <br/><br/>
 具体例）Googleと渋谷の経路を探す場合は，
 ```shell
@@ -19,7 +19,16 @@ python3 wikipedia_sample.py 渋谷
 ```shell
 ['Google', 'セグウェイ', '渋谷']
 ```
-が返ります。
+と出力されます。
+
+## コードの説明
+### read_pages(), read_links()
+Yukiさんが作成してくださったコードそのままです。それぞれpages, linksを返します。
+
+### bfs(pages, links, arrived_time, prev_spot, searched_word)
+
+### print_route(max_page_id, pages, links, searched_word)
+スタートからゴールまでの経路を出力します。
 
 # 発展課題
 
@@ -32,4 +41,4 @@ python3 page_rank.py
 ```shell
 日本 751625.391684508
 ```
-が返されるはずです。
+と出力されるはずです。

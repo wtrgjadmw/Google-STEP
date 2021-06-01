@@ -74,6 +74,5 @@ def main():
   links = read_links()
   print_route(max_page_id, pages, links, searched_word)
 
-
 if __name__ == '__main__':
   main()
