@@ -55,6 +55,8 @@ python3 page_rank.py
 wikipedia_sample.pyと同じです。
 
 ### page_ranking(pages, links, page_rank)
+page_rank: そのページのスコアを保存する配列
+forループでpagesの中身を一つずつ見ていき，その後にlinksを見て隣接するページに```100 / len(links[そのページのid])```点与えます。
 
 ### print_highrank(pages, links, max_page_id))
 最もページランクの高いページ名とそのスコアを出力します。
