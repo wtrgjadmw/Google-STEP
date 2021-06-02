@@ -7,7 +7,7 @@ python3 wikipedia_sample.py <探したいページ名>
 で実行すると，Googleから探したいページまでの経路を返します。<br/>
 存在しないページ名を入れると，
 ```shell
-The graph doesn't have the word
+The graph doesn't have the route
 ```
 と出力されます。
 <br/><br/>
@@ -25,10 +25,17 @@ python3 wikipedia_sample.py Google 渋谷
 ### read_pages(), read_links()
 Yukiさんが作成してくださったコードそのままです。それぞれpages, linksを返します。
 
-### bfs(pages, links, arrived_time, prev_spot, start_word, goal_word)
+### bfs_route_search(pages, links, arrived_time, prev_spot, start_word, goal_word)
+- index_start: スタートのid<br/>
+- index_goal: ゴールのid<br/>
+- arrived_time: スタートからそのページへの距離を保存する配列
+- prev_spot: スタートからそのページへ行く時，その地点の一個前に訪れるページのidを保存する配列。
+  例えばGoogle-渋谷の例で言うと，```prev_spot[渋谷のid]=セグウェイのid```です。
+
+上記の変数を用いて，bfsでキューが空になるまでループをし，arrived_time, prev_spot, index_goalを返します。
 
 ### print_route(max_page_id, pages, links, start_word, goal_word)
-スタートからゴールまでの経路を出力します。
+prev_spotから逆算し，スタートからゴールまでの経路を出力します。
 
 # 発展課題
 

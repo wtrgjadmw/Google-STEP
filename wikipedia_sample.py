@@ -24,7 +24,7 @@ def read_links():
         links[link[0]] = {link[1]}
   return links
 
-def bfs(pages, links, arrived_time, prev_spot, start_word, goal_word):
+def bfs_search_route(pages, links, arrived_time, prev_spot, start_word, goal_word):
   for k, v in pages.items():
     if v == start_word:
       index_start = k
@@ -32,7 +32,7 @@ def bfs(pages, links, arrived_time, prev_spot, start_word, goal_word):
       index_goal = k
 
   try:
-    index_goal
+    index_goal, index_start
     arrived_time[index_start] = 0
     queue = [index_start]
     
@@ -50,14 +50,14 @@ def bfs(pages, links, arrived_time, prev_spot, start_word, goal_word):
 
     return arrived_time, prev_spot, index_goal
   except NameError:
-    print("The graph doesn't have the word")
+    print("The graph doesn't have the route")
     exit(1)
 
 def print_route(max_page_id, pages, links, start_word, goal_word):
   arrived_time = [-1] * (max_page_id + 1)
   prev_spot = [""] * (max_page_id + 1)
   route = []
-  arrived_time, prev_spot, tmp = bfs(pages, links, arrived_time, prev_spot, start_word, goal_word)
+  arrived_time, prev_spot, tmp = bfs_search_route(pages, links, arrived_time, prev_spot, start_word, goal_word)
   if arrived_time[tmp] == -1:
     print("is not connected")
   else:
