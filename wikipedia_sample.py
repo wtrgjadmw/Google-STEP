@@ -4,6 +4,7 @@ def read_pages():
   pages = {}
   max_page_id = 0
   with open('data/pages_small.txt') as f:
+    #ALEX_COMMENT:  the code below reads the whole file into RAM before starting to parse.  not always OK.
     for data in f.read().splitlines():
       page = data.split('\t')
       # page[0]: id, page[1]: title
