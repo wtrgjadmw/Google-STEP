@@ -30,6 +30,10 @@ def page_ranking(pages, links, page_rank):
 
 def print_highrank(pages, links, max_page_id):
   page_rank = page_ranking(pages, links, [0] * (max_page_id + 1))
+  # ALEX_NOTE:  the logic for choosing max_score below only works for positive numbers
+  #             (which is okay here).
+  #             However, if you initialize max_score with the first element,
+  #             then it will work with any numbering space.
   max_score, high_rank = 0, ""
   for i in range(max_page_id + 1):
     if max_score < page_rank[i]:
