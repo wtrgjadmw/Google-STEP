@@ -1,0 +1,6 @@
+.vscode/
+data/
+*.class
+*.out
+*.zip
+dfs.py
