@@ -69,6 +69,61 @@ vector<int> initialize_visitation_order(vector<vector<double> > cities) {
   int n = cities.size();
   vector<vector<double> > dist = distance_matrix(cities);
   int city_now = 0;
+  vector<bool> visited_cities(n, false);
   vector<int> visitation_order(0);
+  visited_cities[city_now] = true;
+  for (int i = 0; i < n - 1; i++) {
+    double min_dist = 100000000;
+    int city_next = 0;
+    for (int j = 0; j < n; j++) {
+      if (!visited_cities[j]) {
+        min_dist = min(min_dist, dist[city_now][city_next]);
+        city_next = j;
+      }
+    }
+    visited_cities[city_next] = true;
+    visitation_order.push_back(city_next);
+  }
   return visitation_order;
+}
+
+vector<int> exchange_two_node(vector<int> visitation_order, int i, int j, vector<vector<double> > dist) {
+  int n = visitation_order.size();
+  int front = visitation_order[i];
+  int back = visitation_order[j];
+  int front_next = visitation_order[i + 1];
+  int back_next = visitation_order[(j + 1) % n];
+  double dist_front = dist[front][front_next];
+  double dist_back = dist[back][back_next];
+  double dist_front_new = dist[front][back];
+  double dist_back_new = dist[front_next][back_next];
+  if (dist_front + dist_back > dist_front_new + dist_back_new) {
+    vector<int> visitation_order_tmp = visitation_order;
+    for (int k = i + 1; k < j + 1; k++) {
+      visitation_order[k] = visitation_order_tmp[i + j + 1 - k];
+    }
+  }
+  return visitation_order;
+}
+
+vector<int> solve(vector<vector<double> > cities) {
+  int n = cities.size();
+  vector<vector<double> > dist = distance_matrix(cities);
+  vector<int> visitation_order = initialize_visitation_order(cities);
+  for (int i = 0; i < 100; i++) {
+    for (int j = 0; j < n - 2; j++) {
+      for (int k = j + 2; k < n; k++) {
+        visitation_order = exchange_two_node(visitation_order, j, k, dist);
+      }
+    }
+  }
+  double loop_dist = loop_distance(dist, visitation_order);
+  printf("%lf\n", loop_dist);
+  return visitation_order;
+}
+
+int main() {
+  vector<vector<double> > cities = read_input_file("../week5/input_0.csv");
+  vector<int> visitation_order = solve(cities);
+  write_output_file("../week5/output_0.csv", visitation_order);
 }
