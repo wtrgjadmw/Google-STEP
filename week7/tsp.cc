@@ -116,10 +116,10 @@ vector<int> exchange_subsequence_node(vector<int> visitation_order, int i, int j
   int d_index = visitation_order[(j + 1) % n];
   int e_first_index = visitation_order[(i + 1) % n];
   int e_last_index = visitation_order[(i + subsequence_len) % n];
-  if (dist[a_index][e_first_index] + dist[e_last_index][b_index] > dist[c_index][e_last_index] + dist[e_first_index][d_index]) {
+  if (dist[a_index][e_first_index] + dist[e_last_index][b_index] + dist[c_index][d_index] > dist[c_index][e_last_index] + dist[e_first_index][d_index] + dist[a_index][b_index]) {
     vector<int> visitation_order_tmp = visitation_order;
     for (int k = i + 1; k < j + 1; k++) {
-      if (k <= j - n) {
+      if (k <= j - subsequence_len) {
         visitation_order[k % n] = visitation_order_tmp[(k + subsequence_len) % n];
       } else {
         visitation_order[k % n] = visitation_order_tmp[(i + j + 1 - k) % n];
@@ -142,12 +142,12 @@ vector<int> solve(vector<vector<double> > cities) {
   }
   double loop_dist = loop_distance(dist, visitation_order);
   printf("%lf\n", loop_dist);
-  for (int cnt = 0; cnt < 10; cnt++) {
-    for (int i = 0; i < n; i++) {
-      for(int subsequence_len = 1; subsequence_len < n - 4; subsequence_len++) {
-        for(int j = i + subsequence_len + 1; j < i - 1 + n; j++) {
-          visitation_order = exchange_subsequence_node(visitation_order, i, j, subsequence_len, dist);
-        }
+  // for (int cnt = 0; cnt < 10; cnt++) {
+  // }
+  for (int i = 0; i < n; i++) {
+    for(int subsequence_len = 1; subsequence_len <= n - 4; subsequence_len++) {
+      for(int j = i + subsequence_len + 2; j < i - 1 + n; j++) {
+        visitation_order = exchange_subsequence_node(visitation_order, i, j, subsequence_len, dist);
       }
     }
   }
@@ -157,7 +157,7 @@ vector<int> solve(vector<vector<double> > cities) {
 }
 
 int main() {
-  vector<vector<double> > cities = read_input_file("../week5/input_1.csv");
+  vector<vector<double> > cities = read_input_file("../week5/input_5.csv");
   vector<int> visitation_order = solve(cities);
-  write_output_file("../week5/output_1.csv", visitation_order);
+  write_output_file("../week5/output_5.csv", visitation_order);
 }
